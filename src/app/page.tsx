@@ -24,7 +24,7 @@ export default async function Home() {
         </Link>
       </div>
 
-      <div className="w-full flex flex-col justify-center items-center">
+      <div className="w-1/2 flex flex-col justify-center m-auto items-center">
         {posts.map((post: PostType) => (
           <div
             key={post.id}

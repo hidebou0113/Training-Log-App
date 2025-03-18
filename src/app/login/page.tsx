@@ -1,7 +1,34 @@
 "use client";
 
-// eslint-disable-next-line @next/next/no-async-client-component
-async function Login() {
+import { getProviders, signIn } from "next-auth/react";
+import { useEffect, useState } from "react";
+
+export default function Login() {
+  const [providers, setProviders] = useState<any>(null);
+
+  useEffect(() => {
+    async function fetchProviders() {
+      const res = await getProviders();
+      setProviders(res);
+    }
+    fetchProviders();
+  }, []);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleCredentialsLogin = async (
+    e: React.FormEvent<HTMLFormElement>
+  ) => {
+    e.preventDefault();
+    await signIn("credentials", {
+      email,
+      password,
+      redirect: true,
+      callbackUrl: "/",
+    });
+  };
+
   return (
     <div className="flex items-center justify-center py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
@@ -11,25 +38,95 @@ async function Login() {
           </h2>
         </div>
         <div className="mt-8 space-y-6">
-          <div className="text-center">
-            <button className="bg-gray-900 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center w-full">
-              <svg
-                role="img"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-6 h-6 mr-2"
-                fill="currentColor"
+          {providers &&
+            Object.values(providers)
+              .filter((provider) => provider.id !== "credentials")
+              .map((provider: any) => {
+                return (
+                  <div key={provider.id} className="text-center">
+                    <button
+                      onClick={() => signIn(provider.id, { callbackUrl: "/" })}
+                      className="bg-slate-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center w-full"
+                    >
+                      <svg
+                        role="img"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="w-6 h-6 mr-2"
+                        fill="currentColor"
+                      >
+                        <title>Google icon</title>
+                        <path
+                          fill="#4285F4"
+                          d="M23.64 12.2045c0-.639-.0575-1.2515-.1635-1.836H12v3.482h6.4845c-.281 1.1275-1.031 2.0855-2.189 2.722v2.2585h3.5415c2.07-1.904 3.27-4.7035 3.27-7.627z"
+                        />
+                        <path
+                          fill="#34A853"
+                          d="M12 24c3.243 0 5.975-1.071 7.966-2.903l-3.5415-2.2585c-.986.664-2.2535 1.055-4.4245 1.055-3.392 0-6.26-2.29-7.28-5.376H1.993V17.03C3.991 21.022 7.726 24 12 24z"
+                        />
+                        <path
+                          fill="#FBBC05"
+                          d="M4.72 14.675c-.227-.68-.357-1.404-.357-2.155 0-.752.13-1.476.357-2.156V7.202H1.993A11.942 11.942 0 0 0 0 12c0 1.956.467 3.81 1.993 5.798l2.727-2.123z"
+                        />
+                        <path
+                          fill="#EA4335"
+                          d="M12 4.764c1.757 0 3.337.605 4.58 1.788l3.433-3.433C17.97 1.306 15.238 0 12 0 7.725 0 3.99 2.978 1.993 7.202l2.727 2.123C5.74 6.054 8.608 4.764 12 4.764z"
+                        />
+                      </svg>
+                      <span>Googleでログイン</span>
+                    </button>
+                  </div>
+                );
+              })}
+
+          <form onSubmit={handleCredentialsLogin} className="space-y-6">
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
               >
-                <title>GitHub icon</title>
-                <path d="M12 0C5.373 0 0 5.373 0 12c0 5.302 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.723-4.042-1.608-4.042-1.608-.546-1.386-1.332-1.754-1.332-1.754-1.087-.743.083-.728.083-.728 1.205.085 1.84 1.236 1.84 1.236 1.07 1.835 2.807 1.305 3.492.998.108-.775.42-1.305.763-1.605-2.665-.3-5.467-1.332-5.467-5.93 0-1.31.468-2.382 1.235-3.22-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.3 1.23.956-.266 1.98-.398 3-.403 1.02.005 2.044.137 3 .403 2.29-1.552 3.297-1.23 3.297-1.23.653 1.652.242 2.873.118 3.176.768.838 1.234 1.91 1.234 3.22 0 4.61-2.805 5.625-5.475 5.92.43.372.824 1.102.824 2.222 0 1.604-.015 2.897-.015 3.29 0 .322.216.697.825.577C20.565 21.795 24 17.298 24 12c0-6.627-5.373-12-12-12z" />
-              </svg>
-              <span>Githubでログイン</span>
-            </button>
-          </div>
+                メールアドレス
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="your@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700"
+              >
+                パスワード
+              </label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              />
+            </div>
+            <div>
+              <button
+                type="submit"
+                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                ログイン
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
   );
 }
-
-export default Login;
