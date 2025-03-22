@@ -3,6 +3,7 @@ import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from "../prisma";
+import { compare } from "bcryptjs";
 
 export const nextAuthOptions: NextAuthOptions = {
   debug: true,
@@ -22,14 +23,21 @@ export const nextAuthOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
+        console.log("入力されたメール:", credentials?.email);
         const user = await prisma.user.findUnique({
           where: { email: credentials?.email },
         });
+        console.log("データベースから取得したユーザー:", user);
         if (!user) {
           throw new Error("そのメールアドレスのユーザーは存在しません");
         }
 
-        const isValid = credentials!.password === user.password;
+        const isValid = await compare(
+          credentials!.password,
+          user.password || ""
+        );
+        console.log("パスワード照合結果:", isValid);
+
         if (!isValid) {
           throw new Error("パスワードが正しくありません");
         }
@@ -39,13 +47,16 @@ export const nextAuthOptions: NextAuthOptions = {
   ],
   adapter: PrismaAdapter(prisma),
   callbacks: {
-    session: ({ session, user }) => {
-      return {
-        user: {
-          ...session.user,
-          id: user.id,
-        },
-      };
+    async signIn({ user, account, profile, email, credentials }) {
+      const isAllowedToSignIn = true;
+      if (isAllowedToSignIn) {
+        return true;
+      } else {
+        // Return false to display a default error message
+        return false;
+        // Or you can return a URL to redirect to:
+        // return '/unauthorized'
+      }
     },
   },
   secret: process.env.NEXTAUTH_SECRET,

@@ -16,17 +16,34 @@ export default function Login() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleCredentialsLogin = async (
     e: React.FormEvent<HTMLFormElement>
   ) => {
     e.preventDefault();
-    await signIn("credentials", {
-      email,
-      password,
-      redirect: true,
-      callbackUrl: "/",
-    });
+    setLoading(true);
+    setError("");
+    try {
+      const res = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+        callbackUrl: "/",
+      });
+      console.log("signIn response:", res);
+
+      if (res?.error) {
+        setError(res.error);
+      } else {
+        window.location.href = res?.url || "/";
+      }
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -92,6 +109,7 @@ export default function Login() {
                 name="email"
                 type="email"
                 placeholder="your@example.com"
+                autoComplete="username"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -110,6 +128,7 @@ export default function Login() {
                 name="password"
                 type="password"
                 placeholder="Password"
+                autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -121,7 +140,7 @@ export default function Login() {
                 type="submit"
                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
-                ログイン
+                {loading ? "ログイン中..." : "ログイン"}
               </button>
             </div>
           </form>
