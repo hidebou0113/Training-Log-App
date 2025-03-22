@@ -1,12 +1,12 @@
 "use client";
 import { signOut, useSession } from "next-auth/react";
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
 const Header = () => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const user = session?.user;
+  console.log("認証状態", status, session);
 
   return (
     <header className="bg-slate-600 text-gray-100 shadow-lg">
@@ -44,12 +44,11 @@ const Header = () => {
           )}
 
           <Link href={`/profile`}>
-            <Image
-              width={50}
-              height={50}
-              alt="profile_icon"
-              src={user?.image || "/default_icon.png"}
-            />
+            <div className="w-20 h-12 border border-white-300 rounded flex items-center justify-center">
+              <span className="text-sm text-gray-300">
+                {session?.user?.name || "Guest"}
+              </span>
+            </div>
           </Link>
         </div>
       </nav>
