@@ -5,6 +5,7 @@ export type PostType = {
   reps: number;
   sets: number;
   date: Date;
+  userId: string;
   menu: {
     id: number;
     name: string;
@@ -14,4 +15,9 @@ export type PostType = {
 export type MenuType = {
   id: number;
   name: string;
+};
+
+export type Credentials = {
+  email: string;
+  password: string;
 };

@@ -1,5 +1,6 @@
 "use client";
 import { MenuType } from "@/types";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 
@@ -7,14 +8,15 @@ const postLog = async (
   menuId: number,
   weight: number,
   reps: number,
-  sets: number
+  sets: number,
+  userId: string
 ) => {
   const res = await fetch(`http://localhost:3000/api/log`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ menuId, weight, reps, sets }),
+    body: JSON.stringify({ userId, menuId, weight, reps, sets }),
   });
 
   return res.json();
@@ -22,6 +24,7 @@ const postLog = async (
 
 const PostLog = () => {
   const router = useRouter();
+  const { data: session } = useSession();
   const menuRef = useRef<HTMLSelectElement | null>(null);
   const [menus, setMenus] = useState<MenuType[]>([]);
   const weightRef = useRef<HTMLInputElement | null>(null);
@@ -57,15 +60,22 @@ const PostLog = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    const userId = (session?.user as { id: string }).id;
+    if (!userId) {
+      console.error("ユーザーが認証されていません");
+      return;
+    }
+
     await postLog(
       menuRef.current?.value ? Number(menuRef.current.value) : 0,
       weightRef.current?.value ? Number(weightRef.current.value) : 0,
       repsRef.current?.value ? Number(repsRef.current.value) : 0,
-      setsRef.current?.value ? Number(setsRef.current.value) : 0
+      setsRef.current?.value ? Number(setsRef.current.value) : 0,
+      userId
     );
 
     router.push("/");
-    router.refresh();
+    // router.refresh();
   };
 
   return (

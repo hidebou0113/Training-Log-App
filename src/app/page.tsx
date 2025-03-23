@@ -32,14 +32,18 @@ export default async function Home() {
           >
             <div className="flex items-center my-3">
               <div className="mr-auto">
-                <h2 className="mr-auto font-semibold">{post.menu.name}</h2>
+                <h2 className="mr-auto font-semibold">
+                  {post.userId}
+                  <br />
+                  {post.menu.name}
+                </h2>
                 <h3>
                   {post.weight}kg×{post.reps}回×{post.sets}セット
                 </h3>
               </div>
               <Link
                 href={`/log/edit/${post.id}`}
-                className="px-4 py-1 text-center text-xl bg-slate-900 rounded-md font-semibold text-slate-200"
+                className="px-4 py-2 text-center text-xl bg-slate-900 rounded-md font-semibold text-slate-200"
               >
                 編集
               </Link>
