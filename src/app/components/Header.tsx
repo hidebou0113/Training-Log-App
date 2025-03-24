@@ -1,4 +1,5 @@
 "use client";
+import { AppBar, Box, Button, Toolbar, Typography } from "@mui/material";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
@@ -9,36 +10,32 @@ const Header = () => {
   console.log("認証状態", status, session);
 
   return (
-    <header className="bg-slate-600 text-gray-100 shadow-lg">
-      <nav className="flex items-center justify-between p-4">
-        <Link href={"/"} className="text-xl font-bold">
-          Training Log
-        </Link>
-        <div className="flex items-center gap-1">
-          <Link
-            href="/"
-            className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+    <AppBar position="static" sx={{ backgroundColor: "info.main" }}>
+      <Toolbar sx={{ justifyContent: "space-between" }}>
+        <Link href={"/"} passHref>
+          <Typography
+            variant="h6"
+            sx={{ textDecoration: "none", color: "inherit" }}
           >
+            Training Log
+          </Typography>
+        </Link>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+          <Link href="/" passHref>
             ホーム
           </Link>
-          <Link
-            href="/register"
-            className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-          >
+          <Link href="/register" passHref>
             新規登録
           </Link>
           {user ? (
-            <button
+            <Button
+              color="inherit"
               onClick={() => signOut({ callbackUrl: "/" })}
-              className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
             >
               ログアウト
-            </button>
+            </Button>
           ) : (
-            <Link
-              href="/login"
-              className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-            >
+            <Link href="/login" passHref>
               ログイン
             </Link>
           )}
@@ -50,9 +47,9 @@ const Header = () => {
               </span>
             </div>
           </Link>
-        </div>
-      </nav>
-    </header>
+        </Box>
+      </Toolbar>
+    </AppBar>
   );
 };
 
