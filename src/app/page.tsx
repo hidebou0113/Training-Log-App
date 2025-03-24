@@ -1,4 +1,5 @@
 import { PostType } from "@/types";
+import { Box, Button, Card, CardContent, Typography } from "@mui/material";
 import Link from "next/link";
 
 async function fetchAllLogs() {
@@ -14,49 +15,86 @@ export default async function Home() {
   const posts = await fetchAllLogs();
 
   return (
-    <main className="w-full h-full">
-      <div className="flex my-5">
-        <Link
+    <>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center", // 水平中央
+        }}
+      >
+        <Button
+          component={Link}
           href={"/log/add"}
-          className=" md:w-1/4 sm:w-2/4 text-center rounded-md p-4 m-auto bg-blue-200 font-semibold"
+          variant="contained"
+          sx={{
+            width: { xs: "40%", md: "25%" },
+            textAlign: "center",
+            p: 2,
+            mt: 2,
+            backgroundColor: "success.main",
+            fontWeight: "bold",
+            fontSize: "1.5rem",
+          }}
         >
           今日の筋トレ記録する✍️
-        </Link>
-      </div>
-
-      <div className="w-1/2 flex flex-col justify-center m-auto items-center">
+        </Button>
+      </Box>
+      <Box
+        sx={{
+          width: "100%",
+          mx: "auto",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          my: 3,
+        }}
+      >
         {posts.map((post: PostType) => (
-          <div
+          <Card
             key={post.id}
-            className="w-3/4 p-4 rounded-md mx-3 my-2 bg-slate-300 flex flex-col justify-center"
+            sx={{
+              width: "75%",
+              mb: 2,
+              p: 1,
+              backgroundColor: "gray.300",
+            }}
           >
-            <div className="flex items-center my-3">
-              <div className="mr-auto">
-                <h2 className="mr-auto font-semibold">
-                  {post.userId}
-                  <br />
-                  {post.menu.name}
-                </h2>
-                <h3>
-                  {post.weight}kg×{post.reps}回×{post.sets}セット
-                </h3>
-              </div>
-              <Link
-                href={`/log/edit/${post.id}`}
-                className="px-4 py-2 text-center text-xl bg-slate-900 rounded-md font-semibold text-slate-200"
+            <CardContent>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  mb: 2,
+                }}
               >
-                編集
-              </Link>
-            </div>
+                <Box>
+                  <Typography variant="h6" component="h2">
+                    {post.userId}
+                    <br />
+                    {post.menu.name}
+                  </Typography>
 
-            <div className="mr-auto my-1">
-              <blockquote className="font-bold text-slate-700">
+                  <Typography variant="h6">
+                    {post.weight}kg×{post.reps}回×{post.sets}セット
+                  </Typography>
+                </Box>
+                <Button
+                  variant="contained"
+                  component={Link}
+                  href={`/log/edit/${post.id}`}
+                >
+                  編集
+                </Button>
+              </Box>
+
+              <Typography variant="body2" color="text.secondary">
                 {new Date(post.date).toDateString()}
-              </blockquote>
-            </div>
-          </div>
+              </Typography>
+            </CardContent>
+          </Card>
         ))}
-      </div>
-    </main>
+      </Box>
+    </>
   );
 }
