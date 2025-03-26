@@ -6,6 +6,9 @@ export type PostType = {
   sets: number;
   date: Date;
   userId: string;
+  user: {
+    name: string;
+  };
   menu: {
     id: number;
     name: string;

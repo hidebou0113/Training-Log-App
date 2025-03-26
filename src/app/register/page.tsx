@@ -17,6 +17,8 @@ export default function Register() {
     setLoading(true);
     setError("");
 
+    const data = new FormData(e.currentTarget);
+
     try {
       const response = await fetch("/api/auth/register", {
         method: "POST",
@@ -24,13 +26,11 @@ export default function Register() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email,
-          password,
-          name,
+          email: data.get("email"),
+          password: data.get("password"),
+          name: data.get("name"),
         }),
       });
-
-      const data = await response.json();
 
       if (!response.ok) {
         throw new Error(data.message || "登録に失敗しました");

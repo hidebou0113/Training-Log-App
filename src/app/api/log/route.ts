@@ -18,6 +18,7 @@ export const GET = async (req: Request) => {
     const posts = await prisma.post.findMany({
       include: {
         menu: true,
+        user: true,
       },
     });
     return NextResponse.json({ message: "Success", posts }, { status: 200 });
@@ -31,11 +32,14 @@ export const GET = async (req: Request) => {
 //筋トレ記録投稿API
 export const POST = async (req: Request) => {
   try {
-    const { menuId, weight, reps, sets, date } = await req.json();
+    const { userId, menuId, weight, reps, sets, date } = await req.json();
 
     await main();
     const post = await prisma.post.create({
-      data: { menuId, weight, reps, sets, date },
+      data: { userId, menuId, weight, reps, sets, date },
+      include: {
+        user: true,
+      },
     });
     return NextResponse.json({ message: "Success", post }, { status: 201 });
   } catch (err) {

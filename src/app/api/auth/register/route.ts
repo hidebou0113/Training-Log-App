@@ -1,12 +1,11 @@
 import prisma from "@/app/lib/prisma";
-import { hash } from "bcryptjs";
+import bcrypt from "bcryptjs";
 import {} from "next";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(request: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
-    const body = await request.json();
-    const { email, password, name } = body;
+    const { email, password, name } = await req.json();
 
     if (!email || !password || !name) {
       return NextResponse.json(
@@ -21,13 +20,15 @@ export async function POST(request: NextRequest) {
         { message: "このメールアドレスはすでに登録されています" }
       );
     }
-    const hashedPassword = await hash(password, 12);
+    const hashedPassword = await bcrypt.hash(password, 12);
 
     const newUser = await prisma.user.create({
       data: {
         email,
         name,
         password: hashedPassword,
+        image: "",
+        emailVerified: new Date(),
       },
     });
     return NextResponse.json(

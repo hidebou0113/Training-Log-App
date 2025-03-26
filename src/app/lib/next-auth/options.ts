@@ -1,9 +1,9 @@
 import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from "../prisma";
-import { compare } from "bcryptjs";
+import bcrypt from "bcryptjs";
+import Credentials from "next-auth/providers/credentials";
 
 export const nextAuthOptions: NextAuthOptions = {
   debug: true,
@@ -12,7 +12,8 @@ export const nextAuthOptions: NextAuthOptions = {
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
-    CredentialsProvider({
+    Credentials({
+      id: "credentials",
       name: "Credentials",
       credentials: {
         email: {
@@ -32,7 +33,7 @@ export const nextAuthOptions: NextAuthOptions = {
           throw new Error("そのメールアドレスのユーザーは存在しません");
         }
 
-        const isValid = await compare(
+        const isValid = await bcrypt.compare(
           credentials!.password,
           user.password || ""
         );
@@ -45,12 +46,40 @@ export const nextAuthOptions: NextAuthOptions = {
       },
     }),
   ],
+
+  pages: {
+    signIn: "/auth",
+  },
+  debug: process.env.NODE_ENV === "development",
   adapter: PrismaAdapter(prisma),
-  callbacks: {
-    async signIn({ user, account, profile, email, credentials }) {
-      const isAllowedToSignIn = true;
-      return isAllowedToSignIn;
-    },
+  session: {
+    strategy: "jwt",
+  },
+  jwt: {
+    secret: process.env.NEXTAUTH_JWT_SECRET,
   },
   secret: process.env.NEXTAUTH_SECRET,
+  callbacks: {
+    async jwt({ token, user, account, profile }) {
+      if (user) {
+        token.user = user;
+        const u = user as any;
+        token.role = u.role;
+      }
+      if (account) {
+        token.accessToken = account.access_token;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          role: token.role,
+          id: token.sub,
+        },
+      };
+    },
+  },
 };
