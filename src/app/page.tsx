@@ -70,7 +70,7 @@ export default async function Home() {
               >
                 <Box>
                   <Typography variant="h6" component="h2">
-                    {post.userId}
+                    {post.user.name}
                     <br />
                     {post.menu.name}
                   </Typography>

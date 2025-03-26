@@ -68,6 +68,7 @@ model User {
   email         String?   @unique
   password      String?
   emailVerified DateTime? @map("email_verified")
+  hashedpassword      String @default("default_value")
   image         String?
   accounts      Account[]
   sessions      Session[]
