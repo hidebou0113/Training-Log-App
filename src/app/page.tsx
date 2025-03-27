@@ -1,6 +1,8 @@
 import { PostType } from "@/types";
 import { Box, Button, Card, CardContent, Typography } from "@mui/material";
+import { getServerSession } from "next-auth/next";
 import Link from "next/link";
+import { nextAuthOptions } from "./lib/next-auth/options";
 
 async function fetchAllLogs() {
   const res = await fetch(`http://localhost:3000/api/log`, {
@@ -13,6 +15,7 @@ async function fetchAllLogs() {
 
 export default async function Home() {
   const posts = await fetchAllLogs();
+  const session = await getServerSession(nextAuthOptions);
 
   return (
     <>
@@ -79,13 +82,15 @@ export default async function Home() {
                     {post.weight}kg×{post.reps}回×{post.sets}セット
                   </Typography>
                 </Box>
-                <Button
-                  variant="contained"
-                  component={Link}
-                  href={`/log/edit/${post.id}`}
-                >
-                  編集
-                </Button>
+                {session?.user?.id === post.userId && (
+                  <Button
+                    variant="contained"
+                    component={Link}
+                    href={`/log/edit/${post.id}`}
+                  >
+                    編集
+                  </Button>
+                )}
               </Box>
 
               <Typography variant="body2" color="text.secondary">
