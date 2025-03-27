@@ -8,10 +8,12 @@ export type PostType = {
   userId: string;
   user: {
     name: string;
+    id: string;
   };
   menu: {
     id: number;
     name: string;
+    email?: string;
   };
 };
 

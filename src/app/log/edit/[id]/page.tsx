@@ -4,6 +4,19 @@ import { MenuType } from "@/types";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 
+async function fetchMenus() {
+  const res = await fetch(`http://localhost:3000/api/menus`, {
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    throw new Error("メニュー取得失敗");
+  }
+
+  const data = await res.json();
+  return Array.isArray(data) ? data : data.menu || [];
+}
+
 const editLog = async (
   menuId: number,
   weight: number,
@@ -183,7 +196,10 @@ const EditLog = ({ params }: { params: { id: number } }) => {
               />
             </div>
 
-            <button className="font-semibold px-4 py-2 shadow-xl bg-slate-200 rounded-lg m-auto hover:bg-slate-100">
+            <button
+              className="font-semibold px-4 py-2 shadow-xl bg-slate-200 rounded-lg m-auto hover:bg-slate-100"
+              onClick={handleSubmit}
+            >
               更新
             </button>
             <button

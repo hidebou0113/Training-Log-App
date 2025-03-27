@@ -20,6 +20,9 @@ export const GET = async (req: Request) => {
         menu: true,
         user: true,
       },
+      orderBy: {
+        date: "desc",
+      },
     });
     return NextResponse.json({ message: "Success", posts }, { status: 200 });
   } catch (err) {
