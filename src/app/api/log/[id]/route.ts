@@ -19,21 +19,22 @@ export const GET = async (req: Request) => {
 };
 
 //筋トレ記録編集API
-export const PUT = async (req: Request) => {
+export const PUT = async (
+  req: Request,
+  { params }: { params: { id: string } }
+) => {
   try {
-    const id: number = parseInt(req.url.split("/log/")[1]);
+    const id = Number(params.id);
 
     const { menuId, weight, reps, sets, date } = await req.json();
     await main();
     const post = await prisma.post.update({
-      data: { menuId, weight, reps, sets, date },
+      data: { menuId: Number(menuId), weight, reps, sets, date },
       where: { id },
     });
     return NextResponse.json({ message: "Success", post }, { status: 200 });
   } catch (err) {
     return NextResponse.json({ message: "Error", err }, { status: 500 });
-  } finally {
-    await prisma.$disconnect();
   }
 };
 
@@ -49,7 +50,5 @@ export const DELETE = async (req: Request) => {
     return NextResponse.json({ message: "Success", post }, { status: 200 });
   } catch (err) {
     return NextResponse.json({ message: "Error", err }, { status: 500 });
-  } finally {
-    await prisma.$disconnect();
   }
 };
