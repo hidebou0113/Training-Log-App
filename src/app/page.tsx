@@ -95,7 +95,13 @@ export default async function Home() {
                 </Box>
 
                 <Typography variant="body2" color="text.secondary">
-                  {new Date(post.date).toDateString()}
+                  {new Date(post.date).toLocaleString("ja-JP", {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
                 </Typography>
               </CardContent>
             </Card>

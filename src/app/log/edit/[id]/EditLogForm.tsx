@@ -31,10 +31,18 @@ export default function EditLogForm({
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ...formData, id: initialLogData.id }),
+          body: JSON.stringify({
+            id: initialLogData.id,
+            menuId: Number(formData.menuId),
+            weight: Number(formData.weight),
+            reps: Number(formData.reps),
+            sets: Number(formData.sets),
+          }),
         }
       );
       if (!res.ok) {
+        const errorText = await res.text();
+        console.error("エラーレスポンス:", errorText);
         throw new Error("ログ更新に失敗しました");
       }
       router.push("/");

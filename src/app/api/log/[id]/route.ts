@@ -21,16 +21,17 @@ export const GET = async (req: Request) => {
 //筋トレ記録編集API
 export const PUT = async (
   req: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) => {
   try {
-    const id = Number(params.id);
+    const { params } = context;
+    const { id } = await params;
 
-    const { menuId, weight, reps, sets, date } = await req.json();
-    await main();
+    const { menuId, weight, reps, sets } = await req.json();
+
     const post = await prisma.post.update({
-      data: { menuId: Number(menuId), weight, reps, sets, date },
-      where: { id },
+      data: { menuId, weight, reps, sets },
+      where: { id: Number(id) },
     });
     return NextResponse.json({ message: "Success", post }, { status: 200 });
   } catch (err) {
