@@ -10,7 +10,7 @@ async function fetchAllLogs() {
   });
 
   const data = await res.json();
-  return data.posts;
+  return data.posts ?? [];
 }
 
 export default async function Home() {
@@ -52,53 +52,60 @@ export default async function Home() {
           my: 3,
         }}
       >
-        {posts.map((post: PostType) => (
-          <Card
-            key={post.id}
-            sx={{
-              width: "75%",
-              mb: 2,
-              p: 1,
-              backgroundColor: "gray.300",
-            }}
-          >
-            <CardContent>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  mb: 2,
-                }}
-              >
-                <Box>
-                  <Typography variant="h6" component="h2">
-                    {post.user.name}
-                    <br />
-                    {post.menu.name}
-                  </Typography>
+        {posts &&
+          posts.map((post: PostType) => (
+            <Card
+              key={post.id}
+              sx={{
+                width: "75%",
+                mb: 2,
+                p: 1,
+                backgroundColor: "gray.300",
+              }}
+            >
+              <CardContent>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    mb: 2,
+                  }}
+                >
+                  <Box>
+                    <Typography variant="h6" component="h2">
+                      {post.user.name}
+                      <br />
+                      {post.menu.name}
+                    </Typography>
 
-                  <Typography variant="h6">
-                    {post.weight}kg×{post.reps}回×{post.sets}セット
-                  </Typography>
+                    <Typography variant="h6">
+                      {post.weight}kg×{post.reps}回×{post.sets}セット
+                    </Typography>
+                  </Box>
+                  {session?.user?.id === post.userId && (
+                    <Button
+                      variant="contained"
+                      component={Link}
+                      href={`/log/edit/${post.id}`}
+                    >
+                      編集
+                    </Button>
+                  )}
                 </Box>
-                {session?.user?.id === post.userId && (
-                  <Button
-                    variant="contained"
-                    component={Link}
-                    href={`/log/edit/${post.id}`}
-                  >
-                    編集
-                  </Button>
-                )}
-              </Box>
 
-              <Typography variant="body2" color="text.secondary">
-                {new Date(post.date).toDateString()}
-              </Typography>
-            </CardContent>
-          </Card>
-        ))}
+                <Typography variant="body2" color="text.secondary">
+                  {new Date(post.date).toLocaleString("ja-JP", {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </Typography>
+              </CardContent>
+            </Card>
+          ))}
       </Box>
     </>
   );

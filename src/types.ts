@@ -26,3 +26,8 @@ export type Credentials = {
   email: string;
   password: string;
 };
+
+export interface EditLogFormProps {
+  initialMenu: MenuType[];
+  initialLogData: PostType;
+}
