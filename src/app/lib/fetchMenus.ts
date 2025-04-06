@@ -1,4 +1,3 @@
-// src/app/lib/fetchMenus.ts
 import prisma from "./prisma";
 
 export async function fetchMenus() {
