@@ -29,7 +29,7 @@ export default async function EditLogPage({
     redirect("/");
   }
 
-  if (session?.user?.id !== data.userId.toString()) {
+  if (session.user.id !== data.userId.toString()) {
     redirect("/");
   }
   return <EditLogForm initialMenu={menus} initialLogData={data} />;
