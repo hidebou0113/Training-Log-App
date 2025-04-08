@@ -14,8 +14,19 @@ async function fetchAllLogs() {
 }
 
 export default async function Home() {
-  const posts = await fetchAllLogs();
+  const posts: PostType[] = await fetchAllLogs();
   const session = await getServerSession(nextAuthOptions);
+
+  const groupedLogs = posts.reduce((groups, post) => {
+    const dateTimeKey = new Date(post.date).toISOString().slice(0, 16);
+    const key = `${post.user.id}-${dateTimeKey}`;
+
+    if (!groups[key]) {
+      groups[key] = [];
+    }
+    groups[key].push(post);
+    return groups;
+  }, {} as Record<string, PostType[]>);
 
   return (
     <>
@@ -52,19 +63,20 @@ export default async function Home() {
           my: 3,
         }}
       >
-        {posts &&
-          posts.map((post: PostType) => (
-            <Card
-              key={post.id}
-              sx={{
-                width: "75%",
-                mb: 2,
-                p: 1,
-                backgroundColor: "gray.300",
-              }}
-            >
-              <CardContent>
+        {Object.entries(groupedLogs).map(([date, logs]) => (
+          <Card
+            key={date}
+            sx={{
+              width: "75%",
+              mb: 2,
+              p: 1,
+              backgroundColor: "gray.300",
+            }}
+          >
+            <CardContent>
+              {logs.map((post) => (
                 <Box
+                  key={post.id}
                   sx={{
                     display: "flex",
                     justifyContent: "space-between",
@@ -93,19 +105,20 @@ export default async function Home() {
                     </Button>
                   )}
                 </Box>
+              ))}
 
-                <Typography variant="body2" color="text.secondary">
-                  {new Date(post.date).toLocaleString("ja-JP", {
-                    year: "numeric",
-                    month: "2-digit",
-                    day: "2-digit",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                </Typography>
-              </CardContent>
-            </Card>
-          ))}
+              <Typography variant="body2" color="text.secondary">
+                {new Date(logs[0].date).toLocaleString("ja-JP", {
+                  year: "numeric",
+                  month: "2-digit",
+                  day: "2-digit",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </Typography>
+            </CardContent>
+          </Card>
+        ))}
       </Box>
     </>
   );
