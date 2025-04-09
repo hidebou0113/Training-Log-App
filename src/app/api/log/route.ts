@@ -37,15 +37,33 @@ export const POST = async (req: Request) => {
   try {
     const { userId, menuId, weight, reps, sets, date } = await req.json();
 
+    if (!userId || !menuId || weight === undefined || !reps || !sets) {
+      return NextResponse.json(
+        {
+          message: "必須フィールドがありません",
+          err: { missing: { userId, menuId, weight, reps, sets } },
+        },
+        { status: 400 }
+      );
+    }
     await main();
     const post = await prisma.post.create({
-      data: { userId, menuId, weight, reps, sets, date },
+      data: {
+        userId,
+        menuId: Number(menuId),
+        weight: Number(weight),
+        reps: Number(reps),
+        sets: Number(sets),
+        date,
+      },
       include: {
         user: true,
+        menu: true,
       },
     });
     return NextResponse.json({ message: "Success", post }, { status: 201 });
   } catch (err) {
+    console.error("API POST エラー詳細:", err);
     return NextResponse.json({ message: "Error", err }, { status: 500 });
   } finally {
     await prisma.$disconnect();
