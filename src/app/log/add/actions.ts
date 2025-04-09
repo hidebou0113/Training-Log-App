@@ -36,7 +36,17 @@ export async function createLog(
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ userId, menuId, weight, reps, sets }),
+    body: JSON.stringify({
+      userId,
+      menuId: Number(menuId),
+      weight: Number(weight),
+      reps: Number(reps),
+      sets: Number(sets),
+    }),
   });
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(errorText);
+  }
   return res.json();
 }
