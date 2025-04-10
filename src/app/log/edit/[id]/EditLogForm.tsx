@@ -1,5 +1,6 @@
 "use client";
 
+import LogFormFields from "@/app/components/LogFormFields";
 import { EditLogFormProps, MenuType } from "@/types";
 import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
@@ -76,101 +77,11 @@ export default function EditLogForm({
           筋トレ記録の編集 💪
         </h2>
         <form onSubmit={handleSubmit(onSubmit)}>
-          {/* 筋トレメニュー */}
-          <div className="mb-4">
-            <label
-              htmlFor="menuId"
-              className="block text-lg font-medium text-gray-700 mb-1"
-            >
-              筋トレメニュー
-            </label>
-            <Controller
-              name="menuId"
-              control={control}
-              render={({ field }) => (
-                <select
-                  {...field}
-                  id="menuId"
-                  className="w-full p-3 border rounded"
-                >
-                  <option value="" disabled>
-                    メニューを選択
-                  </option>
-                  {initialMenu.map((menu: MenuType) => (
-                    <option key={menu.id} value={menu.id}>
-                      {menu.name}
-                    </option>
-                  ))}
-                </select>
-              )}
-            />
-          </div>
-          {/* 重量(kg) */}
-          <div className="mb-4">
-            <label
-              htmlFor="weight"
-              className="block text-lg font-medium text-gray-700 mb-1"
-            >
-              重量(kg)
-            </label>
-            <Controller
-              name="weight"
-              control={control}
-              render={({ field }) => (
-                <input
-                  {...field}
-                  id="weight"
-                  type="number"
-                  placeholder="重量を入力"
-                  className="w-full p-3 border rounded"
-                />
-              )}
-            />
-          </div>
-          {/* 回数 */}
-          <div className="mb-4">
-            <label
-              htmlFor="reps"
-              className="block text-lg font-medium text-gray-700 mb-1"
-            >
-              回数
-            </label>
-            <Controller
-              name="reps"
-              control={control}
-              render={({ field }) => (
-                <input
-                  {...field}
-                  id="reps"
-                  type="number"
-                  placeholder="回数を入力"
-                  className="w-full p-3 border rounded"
-                />
-              )}
-            />
-          </div>
-          {/* セット数 */}
-          <div className="mb-4">
-            <label
-              htmlFor="sets"
-              className="block text-lg font-medium text-gray-700 mb-1"
-            >
-              セット数
-            </label>
-            <Controller
-              name="sets"
-              control={control}
-              render={({ field }) => (
-                <input
-                  {...field}
-                  id="sets"
-                  type="number"
-                  placeholder="セット数を入力"
-                  className="w-full p-3 border rounded"
-                />
-              )}
-            />
-          </div>
+          <LogFormFields
+            control={control}
+            initialMenu={initialMenu}
+            isMultipleForm={false}
+          />
           <div className="flex justify-center">
             <button
               type="submit"

@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
-export const GET = async (req: Request) => {
+export const GET = async () => {
   try {
     await main();
     const menus = await prisma.menu.findMany();

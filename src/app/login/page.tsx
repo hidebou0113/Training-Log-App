@@ -1,10 +1,13 @@
 "use client";
 
-import { getProviders, signIn } from "next-auth/react";
+import { ClientSafeProvider, getProviders, signIn } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 export default function Login() {
-  const [providers, setProviders] = useState<any>(null);
+  const [providers, setProviders] = useState<Record<
+    string,
+    ClientSafeProvider
+  > | null>(null);
 
   useEffect(() => {
     async function fetchProviders() {
@@ -16,7 +19,6 @@ export default function Login() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleCredentialsLogin = async (
@@ -24,23 +26,17 @@ export default function Login() {
   ) => {
     e.preventDefault();
     setLoading(true);
-    setError("");
+
     try {
       const res = await signIn("credentials", {
         email,
         password,
-        redirect: false,
+        redirect: true,
         callbackUrl: "/",
       });
       console.log("signIn response:", res);
-
-      if (res?.error) {
-        setError(res.error);
-      } else {
-        window.location.href = res?.url || "/";
-      }
     } catch (err) {
-      setError((err as Error).message);
+      console.error("ログインエラー", err);
     } finally {
       setLoading(false);
     }
@@ -58,7 +54,7 @@ export default function Login() {
           {providers &&
             Object.values(providers)
               .filter((provider) => provider.id !== "credentials")
-              .map((provider: any) => {
+              .map((provider: ClientSafeProvider) => {
                 return (
                   <div key={provider.id} className="text-center">
                     <button

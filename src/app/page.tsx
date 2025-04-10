@@ -33,7 +33,7 @@ export default async function Home() {
       <Box
         sx={{
           display: "flex",
-          justifyContent: "center", // 水平中央
+          justifyContent: "center",
         }}
       >
         <Button
@@ -67,13 +67,17 @@ export default async function Home() {
           <Card
             key={date}
             sx={{
-              width: "75%",
+              width: "40%",
               mb: 2,
               p: 1,
               backgroundColor: "gray.300",
             }}
           >
             <CardContent>
+              <Typography variant="h6" component="h2">
+                {logs[0].user.name}
+              </Typography>
+
               {logs.map((post) => (
                 <Box
                   key={post.id}
@@ -82,12 +86,13 @@ export default async function Home() {
                     justifyContent: "space-between",
                     alignItems: "center",
                     mb: 2,
+                    borderTop:
+                      logs.indexOf(post) > 0 ? "1px solid #eee" : "none",
+                    pt: logs.indexOf(post) > 0 ? 1 : 0,
                   }}
                 >
                   <Box>
                     <Typography variant="h6" component="h2">
-                      {post.user.name}
-                      <br />
                       {post.menu.name}
                     </Typography>
 

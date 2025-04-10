@@ -7,12 +7,13 @@ export async function main() {
   try {
     await prisma.$connect();
   } catch (err) {
-    return Error("DB接続に失敗");
+    console.log("DB接続に失敗", err);
+    throw new Error("DB接続に失敗");
   }
 }
 
 //筋トレ全記録取得API
-export const GET = async (req: Request) => {
+export const GET = async () => {
   try {
     await main();
     const posts = await prisma.post.findMany({
