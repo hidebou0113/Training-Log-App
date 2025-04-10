@@ -7,7 +7,6 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
@@ -15,7 +14,6 @@ export default function Register() {
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    setError("");
 
     const data = new FormData(e.currentTarget);
 
@@ -38,7 +36,8 @@ export default function Register() {
 
       router.push("/login?registered=true");
     } catch (err) {
-      setError((err as Error).message);
+      console.error("登録エラー", err);
+      alert("登録に失敗しました");
     } finally {
       setLoading(false);
     }

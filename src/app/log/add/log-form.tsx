@@ -3,10 +3,11 @@
 import { MenuType } from "@/types";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import React, { useRef } from "react";
+import React from "react";
 import { createLog } from "./actions";
 import { Button } from "@mui/material";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
+import LogFormFields from "@/app/components/LogFormFields";
 
 type LogEntry = {
   menuId: number | "";
@@ -73,81 +74,12 @@ const PostLogForm = ({ initialMenu }: EditLogFormProps) => {
                 key={field.id}
                 className="border border-gray-300 p-4 rounded mb-4 flex flex-row gap-4 items-center"
               >
-                {/* 筋トレメニュー */}
-                <div className="flex flex-col">
-                  <Controller
-                    name={`logs.${index}.menuId` as const}
-                    control={control}
-                    rules={{ required: "筋トレメニューは必須です" }}
-                    render={({ field }) => (
-                      <select
-                        id={`logs.${index}.menuId`}
-                        {...field}
-                        className="w-full p-3 border rounded"
-                      >
-                        <option value="" disabled>
-                          メニューを選択
-                        </option>
-                        {initialMenu.map((menu: MenuType) => (
-                          <option key={menu.id} value={menu.id}>
-                            {menu.name}
-                          </option>
-                        ))}
-                      </select>
-                    )}
-                  />
-                </div>
-
-                <div className="flex flex-col">
-                  <Controller
-                    name={`logs.${index}.weight` as const}
-                    control={control}
-                    render={({ field }) => (
-                      <input
-                        {...field}
-                        value={field.value === 0 ? "" : field.value}
-                        id="weight"
-                        type="number"
-                        placeholder="重量を入力"
-                        className="w-full p-3 border rounded"
-                      />
-                    )}
-                  />
-                </div>
-
-                <div className="flex flex-col">
-                  <Controller
-                    name={`logs.${index}.reps` as const}
-                    control={control}
-                    render={({ field }) => (
-                      <input
-                        {...field}
-                        value={field.value === 0 ? "" : field.value}
-                        id="reps"
-                        type="number"
-                        placeholder="回数を入力"
-                        className="w-full p-3 border rounded"
-                      />
-                    )}
-                  />
-                </div>
-
-                <div className="flex flex-col">
-                  <Controller
-                    name={`logs.${index}.sets` as const}
-                    control={control}
-                    render={({ field }) => (
-                      <input
-                        {...field}
-                        value={field.value === 0 ? "" : field.value}
-                        id="sets"
-                        type="number"
-                        placeholder="セット数を入力"
-                        className="w-full p-3 border rounded"
-                      />
-                    )}
-                  />
-                </div>
+                <LogFormFields
+                  control={control}
+                  index={index}
+                  initialMenu={initialMenu}
+                  isMultipleForm={true}
+                />
               </div>
             ))}
             <div className="mb-4 text-center">

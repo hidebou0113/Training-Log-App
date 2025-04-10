@@ -40,13 +40,11 @@ const Header = () => {
             </Link>
           )}
 
-          <Link href={`/profile`}>
-            <div className="w-20 h-12 border border-white-300 rounded flex items-center justify-center">
-              <span className="text-sm text-gray-300">
-                {session?.user?.name || "Guest"}
-              </span>
-            </div>
-          </Link>
+          <div className="w-20 h-12 border border-white-300 rounded flex items-center justify-center">
+            <span className="text-sm text-gray-300">
+              {session?.user?.name || "Guest"}
+            </span>
+          </div>
         </Box>
       </Toolbar>
     </AppBar>
