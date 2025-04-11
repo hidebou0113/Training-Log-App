@@ -30,8 +30,10 @@ export default function Register() {
         }),
       });
 
+      const json = await response.json();
+
       if (!response.ok) {
-        throw new Error(data.message || "登録に失敗しました");
+        throw new Error(json.message || "登録に失敗しました");
       }
 
       router.push("/login?registered=true");
