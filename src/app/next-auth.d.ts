@@ -5,6 +5,15 @@ declare module "next-auth" {
       name?: string | null;
       email?: string | null;
       image?: string | null;
+      role?: string;
     };
   }
+}
+interface User extends DefaultUser {
+  role?: string;
+}
+
+interface JWT {
+  role?: string;
+  accessToken?: string;
 }

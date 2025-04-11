@@ -2,7 +2,7 @@ import { MenuType } from "@/types";
 import { Control, Controller } from "react-hook-form";
 
 type LogFormFieldsProps = {
-  control: Control<any>;
+  control: Control<EditLogFormValues>;
   index?: number;
   initialMenu: MenuType[];
   isMultipleForm?: boolean;
@@ -14,7 +14,7 @@ const LogFormFields = ({
   initialMenu,
   isMultipleForm = false,
 }: LogFormFieldsProps) => {
-  const getFieldName = (field: string) => {
+  const getFieldName = (field: string): string => {
     return isMultipleForm ? `logs.${index}.${field}` : field;
   };
 
@@ -29,7 +29,7 @@ const LogFormFields = ({
       {/* 筋トレメニュー */}
       <div className={isMultipleForm ? "flex flex-col" : ""}>
         <Controller
-          name={getFieldName("menuId") as any}
+          name={getFieldName("menuId")}
           control={control}
           rules={{ required: "筋トレメニューは必須です" }}
           render={({ field }) => (
@@ -53,7 +53,7 @@ const LogFormFields = ({
 
       <div className={isMultipleForm ? "flex flex-col" : ""}>
         <Controller
-          name={getFieldName("weight") as any}
+          name={getFieldName("weight")}
           control={control}
           render={({ field }) => (
             <input
@@ -70,7 +70,7 @@ const LogFormFields = ({
 
       <div className={isMultipleForm ? "flex flex-col" : ""}>
         <Controller
-          name={getFieldName("reps") as any}
+          name={getFieldName("reps")}
           control={control}
           render={({ field }) => (
             <input
@@ -87,7 +87,7 @@ const LogFormFields = ({
 
       <div className={isMultipleForm ? "flex flex-col" : ""}>
         <Controller
-          name={getFieldName("sets") as any}
+          name={getFieldName("sets")}
           control={control}
           render={({ field }) => (
             <input

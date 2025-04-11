@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { createLog } from "./actions";
 import { Button } from "@mui/material";
-import { Controller, useFieldArray, useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import LogFormFields from "@/app/components/LogFormFields";
 
 type LogEntry = {
