@@ -7,7 +7,7 @@ export type PostType = {
   date: Date;
   userId: string;
   user: {
-    name: string;
+    name: string | null;
     id: string;
   };
   menu: {

@@ -1,21 +1,13 @@
+import { connectDB } from "@/app/lib/prisma";
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
-async function main() {
-  try {
-    await prisma.$connect();
-  } catch (err) {
-    console.log("DB接続に失敗", err);
-    throw new Error("DB接続に失敗");
-  }
-}
-
 //筋トレ全記録取得API
 export const GET = async () => {
   try {
-    await main();
+    await connectDB();
     const posts = await prisma.post.findMany({
       include: {
         menu: true,
@@ -47,7 +39,7 @@ export const POST = async (req: Request) => {
         { status: 400 }
       );
     }
-    await main();
+    await connectDB();
     const post = await prisma.post.create({
       data: {
         userId,

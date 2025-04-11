@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { main } from "../route";
 import { PrismaClient } from "@prisma/client";
+import { connectDB } from "@/app/lib/prisma";
 
 const prisma = new PrismaClient();
 
@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 export const GET = async (req: Request) => {
   try {
     const id: number = parseInt(req.url.split("/log/")[1]);
-    await main();
+    await connectDB();
     const post = await prisma.post.findFirst({ where: { id } });
     return NextResponse.json({ message: "Success", post }, { status: 200 });
   } catch (err) {
