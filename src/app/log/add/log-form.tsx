@@ -1,12 +1,12 @@
 "use client";
 
-import { MenuType } from "@/types";
+import { MenuType, PostLogFormValues } from "@/types";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { createLog } from "./actions";
 import { Button } from "@mui/material";
-import { useFieldArray, useForm } from "react-hook-form";
+import { Control, useFieldArray, useForm } from "react-hook-form";
 import LogFormFields from "@/app/components/LogFormFields";
 
 type LogEntry = {
@@ -24,7 +24,7 @@ const PostLogForm = ({ initialMenu }: EditLogFormProps) => {
   const router = useRouter();
   const { data: session } = useSession();
 
-  const { control, handleSubmit, reset } = useForm<{ logs: LogEntry[] }>({
+  const { control, handleSubmit, reset } = useForm<PostLogFormValues>({
     defaultValues: {
       logs: [{ menuId: "", weight: 0, reps: 0, sets: 0 }],
     },
@@ -75,7 +75,7 @@ const PostLogForm = ({ initialMenu }: EditLogFormProps) => {
                 className="border border-gray-300 p-4 rounded mb-4 flex flex-row gap-4 items-center"
               >
                 <LogFormFields
-                  control={control}
+                  control={control as unknown as Control<LogEntry>}
                   index={index}
                   initialMenu={initialMenu}
                   isMultipleForm={true}

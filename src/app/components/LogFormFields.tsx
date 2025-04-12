@@ -1,8 +1,8 @@
-import { MenuType } from "@/types";
+import { EditLogFormValues, LogEntry, MenuType } from "@/types";
 import { Control, Controller } from "react-hook-form";
 
 type LogFormFieldsProps = {
-  control: Control<EditLogFormValues>;
+  control: Control<LogEntry>;
   index?: number;
   initialMenu: MenuType[];
   isMultipleForm?: boolean;
@@ -29,7 +29,7 @@ const LogFormFields = ({
       {/* 筋トレメニュー */}
       <div className={isMultipleForm ? "flex flex-col" : ""}>
         <Controller
-          name={getFieldName("menuId")}
+          name={getFieldName("menuId") as keyof EditLogFormValues}
           control={control}
           rules={{ required: "筋トレメニューは必須です" }}
           render={({ field }) => (
@@ -53,7 +53,7 @@ const LogFormFields = ({
 
       <div className={isMultipleForm ? "flex flex-col" : ""}>
         <Controller
-          name={getFieldName("weight")}
+          name={getFieldName("weight") as keyof EditLogFormValues}
           control={control}
           render={({ field }) => (
             <input
@@ -70,7 +70,7 @@ const LogFormFields = ({
 
       <div className={isMultipleForm ? "flex flex-col" : ""}>
         <Controller
-          name={getFieldName("reps")}
+          name={getFieldName("reps") as keyof EditLogFormValues}
           control={control}
           render={({ field }) => (
             <input
@@ -87,7 +87,7 @@ const LogFormFields = ({
 
       <div className={isMultipleForm ? "flex flex-col" : ""}>
         <Controller
-          name={getFieldName("sets")}
+          name={getFieldName("sets") as keyof EditLogFormValues}
           control={control}
           render={({ field }) => (
             <input

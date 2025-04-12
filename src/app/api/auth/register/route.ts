@@ -8,15 +8,15 @@ export async function POST(req: NextRequest) {
 
     if (!email || !password || !name) {
       return NextResponse.json(
-        { status: 400 },
-        { message: "メールアドレス、パスワード、名前は必須です" }
+        { status: 400, message: "メールアドレス、パスワード、名前は必須です" },
+        { status: 400 }
       );
     }
     const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) {
       return NextResponse.json(
-        { status: 400 },
-        { message: "このメールアドレスはすでに登録されています" }
+        { status: 400, message: "このメールアドレスはすでに登録されています" },
+        { status: 400 }
       );
     }
     const hashedPassword = await bcrypt.hash(password, 12);
@@ -31,14 +31,14 @@ export async function POST(req: NextRequest) {
       },
     });
     return NextResponse.json(
-      { status: 201 },
-      { message: "ユーザー登録に成功しました。", user: newUser }
+      { message: "ユーザー登録に成功しました。", user: newUser },
+      { status: 201 }
     );
   } catch (error) {
     console.error(error);
     return NextResponse.json(
-      { status: 500 },
-      { message: "サーバーエラーが発生しました。", error }
+      { message: "サーバーエラーが発生しました。", error },
+      { status: 500 }
     );
   }
 }
