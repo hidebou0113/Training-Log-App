@@ -3,7 +3,7 @@ import { MenuType } from "@/types";
 export async function fetchMenus(): Promise<MenuType[]> {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}}/api/menus`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/menus`,
       {
         cache: "no-store",
       }
