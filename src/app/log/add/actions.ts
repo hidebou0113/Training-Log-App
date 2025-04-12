@@ -1,8 +1,9 @@
 import { MenuType } from "@/types";
+import { config } from "@/app/lib/config";
 
 export async function fetchMenus(): Promise<MenuType[]> {
   try {
-    const res = await fetch(`http://localhost:3000/api/menus`, {
+    const res = await fetch(`${config.apiBaseUrl}/api/menus`, {
       cache: "no-store",
     });
     if (!res.ok) {
