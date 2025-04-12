@@ -24,9 +24,11 @@ const Header = () => {
           <Link href="/" passHref>
             ホーム
           </Link>
-          <Link href="/register" passHref>
-            新規登録
-          </Link>
+          {!user && (
+            <Link href="/register" passHref>
+              新規登録
+            </Link>
+          )}
           {user ? (
             <Button
               color="inherit"
