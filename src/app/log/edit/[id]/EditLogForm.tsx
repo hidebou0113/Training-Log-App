@@ -2,6 +2,7 @@
 
 import LogFormFields from "@/app/components/LogFormFields";
 import { EditLogFormProps, LogEntry } from "@/types";
+import { config } from "@/app/lib/config";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
@@ -23,7 +24,7 @@ export default function EditLogForm({
   const onSubmit = async (formData: LogEntry) => {
     try {
       const res = await fetch(
-        `http://localhost:3000/api/log/${initialLogData.id}`,
+        `${config.apiBaseUrl}/api/log/${initialLogData.id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
