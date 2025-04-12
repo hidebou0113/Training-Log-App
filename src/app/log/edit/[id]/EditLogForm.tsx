@@ -50,7 +50,7 @@ export default function EditLogForm({
   const handleDelete = async () => {
     try {
       const res = await fetch(
-        `http://localhost:3000/api/log/${initialLogData.id}`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/log/${initialLogData.id}`,
         {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
