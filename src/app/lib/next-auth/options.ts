@@ -6,7 +6,6 @@ import bcrypt from "bcryptjs";
 import Credentials from "next-auth/providers/credentials";
 
 export const nextAuthOptions: NextAuthOptions = {
-  debug: true,
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,

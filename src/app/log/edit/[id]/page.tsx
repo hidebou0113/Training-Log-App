@@ -5,14 +5,13 @@ import { redirect } from "next/navigation";
 import EditLogForm from "./EditLogForm";
 import { fetchMenus } from "@/app/lib/fetchMenus";
 
-type Props = {
-  params: {
-    id: string;
-  };
-};
-
-export default async function EditLogPage({ params }: Props) {
-  const id = Number(params.id);
+export default async function EditLogPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const resolvedParams = await params;
+  const id = Number(resolvedParams.id);
 
   const session = await getServerSession(nextAuthOptions);
   if (!session) {

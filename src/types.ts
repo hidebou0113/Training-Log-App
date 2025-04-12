@@ -31,3 +31,21 @@ export interface EditLogFormProps {
   initialMenu: MenuType[];
   initialLogData: PostType;
 }
+
+export type EditLogFormValues = {
+  menuId: number;
+  weight: number;
+  reps: number;
+  sets: number;
+};
+
+export type LogEntry = {
+  menuId: number | "";
+  weight: number;
+  reps: number;
+  sets: number;
+};
+
+export type PostLogFormValues = {
+  logs: LogEntry[];
+};

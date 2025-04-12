@@ -1,7 +1,7 @@
 "use client";
 
 import LogFormFields from "@/app/components/LogFormFields";
-import { EditLogFormProps } from "@/types";
+import { EditLogFormProps, LogEntry } from "@/types";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
@@ -11,14 +11,7 @@ export default function EditLogForm({
 }: EditLogFormProps) {
   const router = useRouter();
 
-  type EditLogFormValues = {
-    menuId: number;
-    weight: number;
-    reps: number;
-    sets: number;
-  };
-
-  const { control, handleSubmit } = useForm<EditLogFormValues>({
+  const { control, handleSubmit } = useForm<LogEntry>({
     defaultValues: {
       menuId: initialLogData.menu?.id || 0,
       weight: initialLogData?.weight || 0,
@@ -27,12 +20,7 @@ export default function EditLogForm({
     },
   });
 
-  const onSubmit = async (formData: {
-    menuId: number;
-    weight: number;
-    reps: number;
-    sets: number;
-  }) => {
+  const onSubmit = async (formData: LogEntry) => {
     try {
       const res = await fetch(
         `http://localhost:3000/api/log/${initialLogData.id}`,

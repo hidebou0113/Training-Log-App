@@ -24,8 +24,7 @@ export const PUT = async (
   context: { params: Promise<{ id: string }> }
 ) => {
   try {
-    const { params } = context;
-    const { id } = await params;
+    const { id } = await context.params;
 
     const { menuId, weight, reps, sets } = await req.json();
 
@@ -44,7 +43,7 @@ export const DELETE = async (req: Request) => {
   try {
     const id: number = parseInt(req.url.split("/log/")[1]);
 
-    await main();
+    await connectDB();
     const post = await prisma.post.delete({
       where: { id },
     });
