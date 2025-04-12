@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { PostType } from "@/types";
 import { Box, Button, Card, CardContent, Typography } from "@mui/material";
 import { getServerSession } from "next-auth/next";
@@ -5,7 +7,7 @@ import Link from "next/link";
 import { nextAuthOptions } from "./lib/next-auth/options";
 
 async function fetchAllLogs() {
-  const res = await fetch(`http://localhost:3000/api/log`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/log`, {
     cache: "no-store",
   });
 
@@ -27,7 +29,6 @@ export default async function Home() {
     groups[key].push(post);
     return groups;
   }, {} as Record<string, PostType[]>);
-
   return (
     <>
       <Box

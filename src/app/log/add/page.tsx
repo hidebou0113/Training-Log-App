@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { fetchMenus } from "./actions";
 import PostLogForm from "./log-form";
 
