@@ -19,6 +19,20 @@ export default async function Home() {
   const posts: PostType[] = await fetchAllLogs();
   const session = await getServerSession(nextAuthOptions);
 
+  const today = new Date();
+  const todayDateStr = today.toISOString().slice(0, 10);
+  const uniqueUserIds = [
+    ...new Set(
+      posts
+        .filter((post) => {
+          const postDateStr = new Date(post.date).toISOString().slice(0, 10);
+          return postDateStr === todayDateStr;
+        })
+        .map((post) => post.userId)
+    ),
+  ];
+  const todayUserCount = uniqueUserIds.length;
+
   const groupedLogs = posts.reduce((groups, post) => {
     const dateTimeKey = new Date(post.date).toISOString().slice(0, 16);
     const key = `${post.user.id}-${dateTimeKey}`;
@@ -35,8 +49,37 @@ export default async function Home() {
         sx={{
           display: "flex",
           justifyContent: "center",
+          alignItems: "center",
+          position: "relative",
         }}
       >
+        <Box
+          sx={{
+            position: "absolute",
+            right: 3,
+            border: "3px solid",
+            borderColor: "primary.main",
+            borderRadius: 2,
+            px: 2,
+            py: 1,
+          }}
+        >
+          <Typography
+            variant="subtitle1"
+            sx={{
+              fontWeight: "bold",
+              color: "primary.main",
+            }}
+          >
+            本日筋トレをしたユーザー数:{" "}
+            <Box
+              component="span"
+              sx={{ fontSize: "2rem", fontWeight: "bold", ml: 1 }}
+            >
+              {todayUserCount}人
+            </Box>
+          </Typography>
+        </Box>
         <Button
           component={Link}
           href={"/log/add"}
@@ -54,6 +97,7 @@ export default async function Home() {
           今日の筋トレ記録する✍️
         </Button>
       </Box>
+
       <Box
         sx={{
           width: "100%",
