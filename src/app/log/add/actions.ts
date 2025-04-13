@@ -34,22 +34,19 @@ export async function createLog(
   reps: number,
   sets: number
 ) {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}:3000/api/log`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        userId,
-        menuId: Number(menuId),
-        weight: Number(weight),
-        reps: Number(reps),
-        sets: Number(sets),
-      }),
-    }
-  );
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/log`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      userId,
+      menuId: Number(menuId),
+      weight: Number(weight),
+      reps: Number(reps),
+      sets: Number(sets),
+    }),
+  });
   if (!res.ok) {
     const errorText = await res.text();
     throw new Error(errorText);
