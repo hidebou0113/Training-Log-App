@@ -29,7 +29,7 @@ export const nextAuthOptions: NextAuthOptions = {
         });
         console.log("データベースから取得したユーザー:", user);
         if (!user) {
-          throw new Error("そのメールアドレスのユーザーは存在しません");
+          return null;
         }
 
         const isValid = await bcrypt.compare(
@@ -39,7 +39,7 @@ export const nextAuthOptions: NextAuthOptions = {
         console.log("パスワード照合結果:", isValid);
 
         if (!isValid) {
-          throw new Error("パスワードが正しくありません");
+          return null;
         }
         return user;
       },

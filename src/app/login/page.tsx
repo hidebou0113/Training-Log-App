@@ -1,6 +1,7 @@
 "use client";
 
 import { ClientSafeProvider, getProviders, signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Login() {
@@ -20,23 +21,37 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const router = useRouter();
 
   const handleCredentialsLogin = async (
     e: React.FormEvent<HTMLFormElement>
   ) => {
     e.preventDefault();
     setLoading(true);
+    setErrorMessage("");
 
     try {
       const res = await signIn("credentials", {
         email,
         password,
-        redirect: true,
+        redirect: false,
         callbackUrl: "/",
       });
       console.log("signIn response:", res);
+
+      if (res?.error) {
+        if (res.error === "CredentialsSignin") {
+          setErrorMessage("メールアドレスまたはパスワードが間違っています。");
+        } else {
+          setErrorMessage("ログインに失敗しました。");
+        }
+      } else if (res?.ok && res.url) {
+        router.push(res.url);
+      }
     } catch (err) {
       console.error("ログインエラー", err);
+      setErrorMessage("エラーが発生しました。");
     } finally {
       setLoading(false);
     }
@@ -130,7 +145,13 @@ export default function Login() {
                 required
                 className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
+              {errorMessage && (
+                <p className="text-red-600 font-semibold text-sm mt-2 bg-red-100 border border-red-300 rounded px-3 py-2 shadow-sm">
+                  {errorMessage}
+                </p>
+              )}
             </div>
+
             <div>
               <button
                 type="submit"
