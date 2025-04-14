@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
@@ -48,6 +49,11 @@ export default function Register() {
   return (
     <div className="flex items-center justify-center py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
+        <div>
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+            新規登録
+          </h2>
+        </div>
         <div className="mt-8 space-y-6">
           <form onSubmit={handleRegister} className="space-y-6">
             <div>
@@ -107,11 +113,17 @@ export default function Register() {
             <div>
               <button
                 type="submit"
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="group relative w-full flex justify-center py-2 px-4 border border-transparent  rounded-md text-white bg-indigo-600 hover:bg-indigo-700 cursor-pointer"
               >
                 {loading ? "登録中..." : "新規登録"}
               </button>
             </div>
+            <Link
+              href="/login"
+              className="bg-green-600 text-white px-4 py-2 flex justify-center rounded shadow hover:bg-green-600"
+            >
+              登録済みの方はこちらからログイン
+            </Link>
           </form>
         </div>
       </div>
