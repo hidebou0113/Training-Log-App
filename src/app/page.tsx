@@ -80,22 +80,41 @@ export default async function Home() {
             </Box>
           </Typography>
         </Box>
-        <Button
-          component={Link}
-          href={"/log/add"}
-          variant="contained"
-          sx={{
-            width: { xs: "40%", md: "25%" },
-            textAlign: "center",
-            p: 2,
-            mt: 2,
-            backgroundColor: "success.main",
-            fontWeight: "bold",
-            fontSize: "1.5rem",
-          }}
-        >
-          今日の筋トレ記録する✍️
-        </Button>
+        {session ? (
+          <Button
+            component={Link}
+            href={"/log/add"}
+            variant="contained"
+            sx={{
+              width: { xs: "40%", md: "25%" },
+              textAlign: "center",
+              p: 2,
+              mt: 2,
+              backgroundColor: "success.main",
+              fontWeight: "bold",
+              fontSize: "1.5rem",
+            }}
+          >
+            今日の筋トレ記録する✍️
+          </Button>
+        ) : (
+          <Button
+            component={Link}
+            href={"/register"}
+            variant="contained"
+            sx={{
+              width: { xs: "40%", md: "25%" },
+              textAlign: "center",
+              p: 2,
+              mt: 2,
+              backgroundColor: "success.main",
+              fontWeight: "bold",
+              fontSize: "1.5rem",
+            }}
+          >
+            今日の筋トレ記録する✍️
+          </Button>
+        )}
       </Box>
 
       <Box

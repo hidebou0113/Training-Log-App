@@ -1,6 +1,7 @@
 "use client";
 
 import { ClientSafeProvider, getProviders, signIn } from "next-auth/react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -155,11 +156,17 @@ export default function Login() {
             <div>
               <button
                 type="submit"
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="group relative w-full flex justify-center py-2 px-4 border border-transparent rounded-md text-white bg-indigo-600 hover:bg-indigo-700 cursor-pointer"
               >
                 {loading ? "ログイン中..." : "ログイン"}
               </button>
             </div>
+            <Link
+              href="/register"
+              className="bg-green-600 text-white px-4 py-2 flex justify-center rounded shadow hover:bg-green-600"
+            >
+              未登録の方はこちらから新規登録
+            </Link>
           </form>
         </div>
       </div>
