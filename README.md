@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 筋トレ記録アプリ
 
-## Getting Started
+##デモ URL
+https://training-log-app-v8g8.vercel.app/
 
-First, run the development server:
+##テストログイン情報
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- メールアドレス :`test@test.com`
+- パスワード:`test`
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+##本アプリ使用の流れ
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. 新規登録
+2. ログイン
+3. 筋トレ後に記録
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+##機能一覧
 
-## Learn More
+-**新規登録・ログイン** -**筋トレ記録機能** -記録複数追加 -記録編集・削除 -記録一覧表示
 
-To learn more about Next.js, take a look at the following resources:
+##🛠 使用技術
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+###フロントエンド
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Next.js App Router
+- React
+- Typescript
+- Tailwind CSS
+- Material UI
 
-## Deploy on Vercel
+###バックエンド/インフラ
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Prisma
+- Supabase
+- NextAuth.js
+- Vercel
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+##工夫した点
+
+##追加予定の機能
+
+- プロフィールページでカレンダーに自分の記録をつけた日を一覧で表示
+- ペア申請をして、目標を互いに設定し合う（例:週 3 回）
+- 1 週間経過後にペア更新または満了
