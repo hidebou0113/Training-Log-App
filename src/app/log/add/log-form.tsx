@@ -82,10 +82,8 @@ const PostLogForm = ({ initialMenu }: EditLogFormProps) => {
                 />
               </div>
             ))}
-            <div className="mb-4 text-center">
-              <button
-                type="button"
-                className="font-semibold px-4 py-2 shadow-xl bg-blue-200 rounded-lg m-auto hover:bg-blue-300"
+            <div className="mb-4 flex">
+              <Button
                 onClick={() => {
                   if (fields.length < 5) {
                     append({ menuId: "", weight: 0, reps: 0, sets: 0 });
@@ -93,9 +91,11 @@ const PostLogForm = ({ initialMenu }: EditLogFormProps) => {
                     alert("最大5件まで追加可能です");
                   }
                 }}
+                variant="contained"
+                sx={{ ml: "auto", mr: 2 }}
               >
                 さらに追加
-              </button>
+              </Button>
             </div>
 
             <div className="text-center">

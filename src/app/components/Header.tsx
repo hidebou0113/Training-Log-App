@@ -10,7 +10,7 @@ const Header = () => {
   console.log("認証状態", status, session);
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: "info.main" }}>
+    <AppBar position="static" sx={{ backgroundColor: "#0288d1" }}>
       <Toolbar sx={{ justifyContent: "space-between" }}>
         <Link href={"/"} passHref>
           <Typography

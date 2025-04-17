@@ -134,7 +134,8 @@ export default async function Home() {
               width: "40%",
               mb: 2,
               p: 1,
-              backgroundColor: "gray.300",
+              backgroundColor: "#b3e5fc",
+              boxShadow: 5,
             }}
           >
             <CardContent>

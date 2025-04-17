@@ -2,6 +2,8 @@
 
 import LogFormFields from "@/app/components/LogFormFields";
 import { EditLogFormProps, LogEntry } from "@/types";
+import { Button } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
@@ -66,9 +68,12 @@ export default function EditLogForm({
   };
 
   return (
-    <div className="w-full m-auto flex my-4">
+    <div
+      className="w-full max-w-2xl mx-auto my-6 p-6 rounded-2xl shadow-lg"
+      style={{ backgroundColor: "#b3e5fc" }}
+    >
       <div className="flex flex-col justify-center items-center m-auto">
-        <h2 className="text-2xl text-slate-200 font-bold p-3">
+        <h2 className="text-4xl text-white-200 font-bold  p-1">
           筋トレ記録の編集 💪
         </h2>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -77,20 +82,25 @@ export default function EditLogForm({
             initialMenu={initialMenu}
             isMultipleForm={false}
           />
-          <div className="flex justify-center">
-            <button
+          <div className="flex justify-center mt-3">
+            <Button
+              variant="outlined"
               type="submit"
-              className="font-semibold px-4 py-2 shadow-xl bg-slate-200 rounded-lg hover:bg-slate-100"
+              color="success"
+              sx={{ mx: 1, fontWeight: "bold" }}
             >
               更新
-            </button>
-            <button
-              type="button"
+            </Button>
+
+            <Button
+              variant="outlined"
+              startIcon={<DeleteIcon />}
               onClick={handleDelete}
-              className="ml-2 font-semibold px-4 py-2 shadow-xl bg-red-400 rounded-lg hover:bg-slate-100"
+              color="error"
+              sx={{ mx: 1, fontWeight: "bold" }}
             >
               削除
-            </button>
+            </Button>
           </div>
         </form>
       </div>
