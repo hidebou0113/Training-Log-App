@@ -48,7 +48,8 @@ export default function EditLogForm({
     }
   };
 
-  const handleDelete = async () => {
+  const handleDelete = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     try {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/log/${initialLogData.id}`,
@@ -90,7 +91,7 @@ export default function EditLogForm({
 
             <Button
               type="button"
-              onClick={handleDelete}
+              onClick={(e) => handleDelete(e)}
               variant="outlined"
               color="error"
               sx={{ fontWeight: "bold" }}
