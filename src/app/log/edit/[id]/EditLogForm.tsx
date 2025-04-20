@@ -2,7 +2,6 @@
 
 import LogFormFields from "@/app/components/LogFormFields";
 import { EditLogFormProps, LogEntry } from "@/types";
-import { Button } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
@@ -48,8 +47,7 @@ export default function EditLogForm({
     }
   };
 
-  const handleDelete = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const handleDelete = async () => {
     try {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/log/${initialLogData.id}`,
@@ -80,24 +78,20 @@ export default function EditLogForm({
             isMultipleForm={false}
           />
           <div className="flex justify-center mt-4 gap-x-3">
-            <Button
+            <button
               type="submit"
-              variant="outlined"
-              color="success"
-              sx={{ fontWeight: "bold" }}
+              className="px-4 py-2 border border-green-500 rounded-md font-bold hover:bg-green-100 transition-colors duration-500"
             >
               更新
-            </Button>
+            </button>
 
-            <Button
+            <button
               type="button"
-              onClick={(e) => handleDelete(e)}
-              variant="outlined"
-              color="error"
-              sx={{ fontWeight: "bold" }}
+              className="px-4 py-2 border border-red-500 rounded-md font-bold hover:bg-red-100 transition-colors duration-500"
+              onClick={handleDelete}
             >
               削除
-            </Button>
+            </button>
           </div>
         </form>
       </div>
