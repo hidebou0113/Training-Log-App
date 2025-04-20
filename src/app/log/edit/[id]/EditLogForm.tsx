@@ -2,6 +2,7 @@
 
 import LogFormFields from "@/app/components/LogFormFields";
 import { EditLogFormProps, LogEntry } from "@/types";
+import { Button } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
@@ -68,7 +69,7 @@ export default function EditLogForm({
   return (
     <div className="w-full m-auto flex my-4">
       <div className="flex flex-col justify-center items-center m-auto">
-        <h2 className="text-2xl text-slate-200 font-bold p-3">
+        <h2 className="text-2xl text-black-200 font-bold p-3">
           筋トレ記録の編集 💪
         </h2>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -77,20 +78,25 @@ export default function EditLogForm({
             initialMenu={initialMenu}
             isMultipleForm={false}
           />
-          <div className="flex justify-center">
-            <button
+          <div className="flex justify-center mt-4 gap-x-3">
+            <Button
               type="submit"
-              className="font-semibold px-4 py-2 shadow-xl bg-slate-200 rounded-lg hover:bg-slate-100"
+              variant="outlined"
+              color="success"
+              sx={{ fontWeight: "bold" }}
             >
               更新
-            </button>
-            <button
+            </Button>
+
+            <Button
               type="button"
               onClick={handleDelete}
-              className="ml-2 font-semibold px-4 py-2 shadow-xl bg-red-400 rounded-lg hover:bg-slate-100"
+              variant="outlined"
+              color="error"
+              sx={{ fontWeight: "bold" }}
             >
               削除
-            </button>
+            </Button>
           </div>
         </form>
       </div>
