@@ -1,8 +1,5 @@
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
-import { connectDB } from "@/app/lib/prisma";
-
-const prisma = new PrismaClient();
+import prisma, { connectDB } from "@/app/lib/prisma";
 
 //筋トレ詳細記録取得API
 export const GET = async (req: Request) => {
@@ -13,8 +10,6 @@ export const GET = async (req: Request) => {
     return NextResponse.json({ message: "Success", post }, { status: 200 });
   } catch (err) {
     return NextResponse.json({ message: "Error", err }, { status: 500 });
-  } finally {
-    await prisma.$disconnect();
   }
 };
 

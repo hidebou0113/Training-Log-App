@@ -1,10 +1,8 @@
 "use client";
 
-"use client";
-
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import { useState } from "react";
 
 export default function RegisterForm() {
   const [email, setEmail] = useState("");
