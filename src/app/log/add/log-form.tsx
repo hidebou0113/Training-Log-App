@@ -71,7 +71,7 @@ const PostLogForm = ({ initialMenu }: EditLogFormProps) => {
             {fields.map((field, index) => (
               <div
                 key={field.id}
-                className="border border-gray-300 p-4 rounded mb-4 flex flex-row gap-4 items-center"
+                className="border border-gray-300 p-4 rounded mb-4 flex flex-col sm:flex-row gap-4 w-full"
               >
                 <LogFormFields
                   control={control as unknown as Control<LogEntry>}
@@ -81,10 +81,10 @@ const PostLogForm = ({ initialMenu }: EditLogFormProps) => {
                 />
               </div>
             ))}
-            <div className="mb-4 text-center">
+            <div className="mb-4 flex justify-center mb-2">
               <button
                 type="button"
-                className="font-semibold px-4 py-2 shadow-xl bg-blue-200 rounded-lg m-auto hover:bg-blue-300"
+                className="font-semibold w-32 px-4 py-2 shadow-xl bg-blue-200 rounded-lg hover:bg-blue-300"
                 onClick={() => {
                   if (fields.length < 5) {
                     append({ menuId: "", weight: 0, reps: 0, sets: 0 });
@@ -102,9 +102,8 @@ const PostLogForm = ({ initialMenu }: EditLogFormProps) => {
                 type="submit"
                 variant="contained"
                 sx={{
-                  width: { xs: "20%", md: "25%" },
-                  height: { xs: "60%" },
-                  p: 2,
+                  width: "8rem",
+                  p: 1,
                   backgroundColor: "success.main",
                   fontWeight: "bold",
                   fontSize: "1.0rem",

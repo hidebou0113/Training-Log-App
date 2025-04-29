@@ -11,42 +11,70 @@ const Header = () => {
 
   return (
     <AppBar position="static" sx={{ backgroundColor: "info.main" }}>
-      <Toolbar sx={{ justifyContent: "space-between" }}>
+      <Toolbar sx={{ justifyContent: "space-between", px: { xs: 1, sm: 2 } }}>
         <Link href={"/"} passHref>
           <Typography
             variant="h6"
-            sx={{ textDecoration: "none", color: "inherit" }}
+            sx={{
+              textDecoration: "none",
+              color: "inherit",
+              fontSize: { xs: "1rem", sm: "1.15rem" },
+              fontWeight: "bold",
+            }}
           >
             Training Log
           </Typography>
         </Link>
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: { xs: 1, sm: 2 },
+            flexWrap: "wrap",
+            justifyContent: { xs: "center", sm: "flex-end" },
+          }}
+        >
           <Link href="/" passHref>
             ホーム
           </Link>
           {!user && (
             <Link href="/register" passHref>
-              新規登録
+              <Typography sx={{ fontSize: { xs: "0.75rem", sm: "1rem" } }}>
+                新規登録
+              </Typography>
             </Link>
           )}
           {user ? (
             <Button
               color="inherit"
               onClick={() => signOut({ callbackUrl: "/" })}
+              sx={{
+                fontSize: { xs: "0.75rem", sm: "1rem" },
+                fontWeight: "bold",
+              }}
             >
               ログアウト
             </Button>
           ) : (
             <Link href="/login" passHref>
-              ログイン
+              <Typography sx={{ fontSize: { xs: "0.75rem", sm: "1rem" } }}>
+                ログイン
+              </Typography>
             </Link>
           )}
 
-          <div className="w-20 h-12 border border-white-300 rounded flex items-center justify-center">
-            <span className="text-sm text-gray-300">
-              {session?.user?.name || "Guest"}
-            </span>
-          </div>
+          <Typography
+            sx={{
+              fontSize: "0.75rem",
+              color: "white",
+              border: "1px solid white",
+              borderRadius: "6px",
+              px: 1.5,
+              py: 0.5,
+            }}
+          >
+            {session?.user?.name || "Guest"}
+          </Typography>
         </Box>
       </Toolbar>
     </AppBar>
