@@ -48,15 +48,14 @@ export default async function Home() {
       <Box
         sx={{
           display: "flex",
-          justifyContent: "center",
+          flexDirection: "column",
           alignItems: "center",
           position: "relative",
+          my: 3,
         }}
       >
         <Box
           sx={{
-            position: "absolute",
-            right: 3,
             border: "3px solid",
             borderColor: "primary.main",
             borderRadius: 2,
@@ -69,52 +68,42 @@ export default async function Home() {
             sx={{
               fontWeight: "bold",
               color: "primary.main",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexWrap: "wrap",
             }}
           >
             本日筋トレをしたユーザー数:{" "}
             <Box
               component="span"
-              sx={{ fontSize: "2rem", fontWeight: "bold", ml: 1 }}
+              sx={{
+                fontSize: { xs: "1.5rem", sm: "2rem" },
+                fontWeight: "bold",
+                ml: 1,
+              }}
             >
               {todayUserCount}人
             </Box>
           </Typography>
         </Box>
-        {session ? (
-          <Button
-            component={Link}
-            href={"/log/add"}
-            variant="contained"
-            sx={{
-              width: { xs: "40%", md: "25%" },
-              textAlign: "center",
-              p: 2,
-              mt: 2,
-              backgroundColor: "success.main",
-              fontWeight: "bold",
-              fontSize: "1.5rem",
-            }}
-          >
-            今日の筋トレ記録する✍️
-          </Button>
-        ) : (
-          <Button
-            component={Link}
-            href={"/register"}
-            variant="contained"
-            sx={{
-              width: { xs: "40%", md: "25%" },
-              textAlign: "center",
-              p: 2,
-              mt: 2,
-              backgroundColor: "success.main",
-              fontWeight: "bold",
-              fontSize: "1.5rem",
-            }}
-          >
-            今日の筋トレ記録する✍️
-          </Button>
-        )}
+        <Button
+          component={Link}
+          href={session ? "/log/add" : "/register"}
+          variant="contained"
+          sx={{
+            width: { xs: "80%", sm: "60%", md: "30%" },
+            textAlign: "center",
+            p: 2,
+            mt: 2,
+            backgroundColor: "success.main",
+            fontWeight: "bold",
+            fontSize: { xs: "1.2rem", sm: "1.5rem" },
+            whiteSpace: "nowrap",
+          }}
+        >
+          今日の筋トレ記録する✍️
+        </Button>
       </Box>
 
       <Box
@@ -131,10 +120,11 @@ export default async function Home() {
           <Card
             key={date}
             sx={{
-              width: "40%",
+              width: { xs: "90%", sm: "80%", md: "30%", lg: "30%" },
               mb: 2,
               p: 1,
-              backgroundColor: "gray.300",
+              backgroundColor: "gray.800",
+              boxShadow: 3,
             }}
           >
             <CardContent>
