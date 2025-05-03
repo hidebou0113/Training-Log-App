@@ -20,11 +20,9 @@ const LogFormFields = ({
 
   return (
     <div
-      className={
-        isMultipleForm
-          ? "border-gray-300 p-4 rounded mb-4 flex flex-row gap-4 items-center"
-          : ""
-      }
+      className={`flex flex-col sm:flex-row gap-4 items-center ${
+        isMultipleForm ? "border border-gray-300 p-4 rounded mb-4" : ""
+      }`}
     >
       {/* 筋トレメニュー */}
       <div className={isMultipleForm ? "flex flex-col" : ""}>

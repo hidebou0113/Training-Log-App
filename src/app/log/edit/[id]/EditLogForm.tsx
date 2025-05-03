@@ -66,17 +66,20 @@ export default function EditLogForm({
   };
 
   return (
-    <div className="w-full m-auto flex my-4">
+    <div className="w-full m-auto flex flex-col my-4">
       <div className="flex flex-col justify-center items-center m-auto">
-        <h2 className="text-2xl text-black-200 font-bold p-3">
+        <h2 className="text-3xl text-black-300 font-bold p-5">
           筋トレ記録の編集 💪
         </h2>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <LogFormFields
-            control={control}
-            initialMenu={initialMenu}
-            isMultipleForm={false}
-          />
+          <div className="border border-gray-300 p-4 rounded mb-4 flex flex-col sm:flex-row gap-4 w-full">
+            <LogFormFields
+              control={control}
+              initialMenu={initialMenu}
+              isMultipleForm={false}
+            />
+          </div>
+
           <div className="flex justify-center mt-4 gap-x-3">
             <button
               type="submit"
