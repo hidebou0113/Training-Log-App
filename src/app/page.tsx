@@ -168,6 +168,7 @@ export default async function Home() {
 
               <Typography variant="body2" color="text.secondary">
                 {new Date(logs[0].date).toLocaleString("ja-JP", {
+                  timeZone: "Asia/Tokyo",
                   year: "numeric",
                   month: "2-digit",
                   day: "2-digit",
