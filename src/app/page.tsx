@@ -1,5 +1,3 @@
-export const dynamic = "force-dynamic";
-
 import { PostType } from "@/types";
 import { Box, Button, Card, CardContent, Typography } from "@mui/material";
 import { getServerSession } from "next-auth/next";
